@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import logo from './assets/Logo.jpeg'
 import './App.css'
 
 const TOKEN_KEY = 'fdp_admin_token'
@@ -24,6 +25,7 @@ async function api(path, { token, method = 'GET', body } = {}) {
 function Login({ onSuccess }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -46,27 +48,136 @@ function Login({ onSuccess }) {
   }
 
   return (
-    <main className="screen">
-      <section className="login-card">
-        <p className="eyebrow">Chapersons Foundations</p>
-        <h1>Admin sign in</h1>
-        <p className="lede">Create the accounts that can fill donation slips in the app.</p>
+    <main className="login-screen">
+      <div className="login-blob login-blob-navy" aria-hidden="true" />
+      <div className="login-blob login-blob-light" aria-hidden="true" />
+      <div className="login-blob login-blob-pale-left" aria-hidden="true" />
+      <div className="login-blob login-blob-pale-right" aria-hidden="true" />
+      <svg className="login-book" viewBox="0 0 160 70" aria-hidden="true">
+        <path d="M8 28 Q80 8 152 32 M8 28 Q80 48 152 32" />
+      </svg>
+      <section className="login-column">
+        <div className="login-logo-wrap">
+          <img className="login-logo" src={logo} alt="Chapersons Foundations" />
+        </div>
+        <div className="login-brand">
+          <span />
+          <p>CHAPERSONS FOUNDATIONS</p>
+          <span />
+        </div>
+        <p className="login-welcome">Welcome Back</p>
+        <h1 className="login-title">Sign In</h1>
+        <p className="login-copy">
+          Use the email and password created
+          <br />
+          in the admin panel.
+        </p>
         <form onSubmit={submit}>
-          <label>
-            Email
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="username" />
+          <label className="login-field">
+            <MailIcon />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              autoComplete="username"
+            />
           </label>
-          <label>
-            Password
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
+          <label className="login-field">
+            <LockIcon />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              autoComplete="current-password"
+            />
+            <button
+              className="login-eye"
+              type="button"
+              onClick={() => setShowPassword((current) => !current)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
           </label>
-          {error ? <p className="error">{error}</p> : null}
-          <button className="primary" type="submit" disabled={busy}>
-            {busy ? 'Signing in…' : 'Sign in'}
+          {error ? <p className="login-error">{error}</p> : null}
+          <button className="login-submit" type="submit" disabled={busy}>
+            {busy ? (
+              'Signing in…'
+            ) : (
+              <>
+                <ArrowIcon />
+                <span className="login-submit-rule" />
+                Sign In
+              </>
+            )}
           </button>
         </form>
+        <div className="login-trust">
+          <span />
+          <ShieldIcon />
+          <p>Secure & Trusted</p>
+          <span />
+        </div>
       </section>
     </main>
+  )
+}
+
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <path d="M4 7l8 6 8-6" />
+    </svg>
+  )
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5.5" y="10.5" width="13" height="9" rx="2" />
+      <path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" />
+    </svg>
+  )
+}
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12z" />
+      <circle cx="12" cy="12" r="2.4" />
+    </svg>
+  )
+}
+
+function EyeOffIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 4.5l18 15" />
+      <path d="M9.2 9.4A3.2 3.2 0 0 0 12 15.2c.7 0 1.3-.2 1.8-.6" />
+      <path d="M6.2 7.2C4.2 8.6 2.8 10.6 2.5 12c0 0 3.5 5.5 9.5 5.5 1.5 0 2.9-.4 4.1-1" />
+      <path d="M10 6.7c.6-.1 1.3-.2 2-.2 6 0 9.5 5.5 9.5 5.5a16 16 0 0 1-3.2 3.4" />
+    </svg>
+  )
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3.5l7 2.4v6.2c0 4.2-2.8 7.2-7 8.4-4.2-1.2-7-4.2-7-8.4V5.9l7-2.4z" />
+    </svg>
   )
 }
 
