@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router'
 import logo from './assets/Logo.jpeg'
+import PrivacyPolicy from './PrivacyPolicy.jsx'
 import './App.css'
 
 const TOKEN_KEY = 'fdp_admin_token'
@@ -306,6 +308,15 @@ function Users({ token, onLogout }) {
 }
 
 export default function App() {
+  return (
+    <Routes>
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="*" element={<AdminApp />} />
+    </Routes>
+  )
+}
+
+function AdminApp() {
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY))
 
   const logout = useCallback(() => {
