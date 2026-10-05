@@ -3,9 +3,10 @@ import logo from './assets/Logo.jpeg'
 import './App.css'
 
 const TOKEN_KEY = 'fdp_admin_token'
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
 
 async function api(path, { token, method = 'GET', body } = {}) {
-  const response = await fetch(path, {
+  const response = await fetch(`${API_URL}${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
